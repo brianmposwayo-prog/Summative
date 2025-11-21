@@ -1,0 +1,63 @@
+Test Case 1
+- Purpose: Validate that RegisterForm accepts valid input.
+- Input: username='user1', full_name='User One', email='user1@example.com', age='30', about='Hello'
+- Steps:
+  1. Create a RegisterForm with the above data.
+  2. Call `validate()`.
+- Expected Result: `validate()` returns (True, []).
+- Actual Result:
+  Result: validate() returned (True, []).
+
+
+Test Case 2
+- Purpose: Ensure `get_user` returns a user after adding.
+- Input: user dict username='user2', full_name='User Two', email='user2@example.com', age=25
+- Steps:
+  1. Use `db.add_user()` to add the user.
+  2. Call `db.get_user('user2')`.
+- Expected Result: Returned object is not None and `username == 'user2'`.
+- Actual Result:
+  Result: `get_user('user2')` returned the user object with `username == 'user2'`.
+
+
+Test Case 3
+- Purpose: Confirm `update_user` successfully updates an existing user.
+- Input: existing user username='user3', update full_name -> 'User Three Updated'
+- Steps:
+  1. Add user with `db.add_user()`.
+  2. Call `db.update_user('user3', updated_dict)`.
+  3. Fetch with `db.get_user('user3')`.
+- Expected Result: `update_user` returns True and the returned user has `full_name == 'User Three Updated'`.
+- Actual Result:
+  Result: `update_user` returned True and fetched user's `full_name` is 'User Three Updated'.
+
+
+Test Case 4 (expected to FAIL)
+- Purpose: Verify DB prevents duplicate usernames (this will fail because current DB allows duplicates).
+- Input: user dict username='dupuser'
+- Steps:
+  1. Add `dupuser`.
+  2. Add `dupuser` again.
+  3. Call `db.get_all_users()` and count entries with username 'dupuser'.
+- Expected Result: Only 1 entry for 'dupuser'.
+- Actual Result:
+  Result: Found 2 entries for 'dupuser' (DB allows duplicates). Test FAILED.
+
+Test Case 5 (expected to FAIL)
+- Purpose: Check update on nonexistent user returns True (this will fail; function returns False).
+- Input: username='noexist'
+- Steps:
+  1. Call `db.update_user('noexist', {...})` where the user does not exist.
+- Expected Result: Function returns True.
+- Actual Result:
+  Result: `update_user('noexist', ...)` returned False. Test FAILED.
+
+Test Case 6 (expected to FAIL)
+- Purpose: Verify RegisterForm accepts non-integer age (this will fail; validation rejects it).
+- Input: username='badage', full_name='Bad Age', email='bad@example.com', age='abc'
+- Steps:
+  1. Create RegisterForm with above data.
+  2. Call `validate()`.
+- Expected Result: `validate()` returns (True, []).
+- Actual Result:
+  Result: `validate()` returned (False, ['Age must be an integer if provided.']). Test FAILED.

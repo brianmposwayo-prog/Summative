@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Update — {{ user.full_name }}{% endblock %}
+{% block content %}
+  <h1>Update Profile for {{ user.username }}</h1>
+  <form method="post" novalidate>
+    <label>Full name<br>
+      <input name="full_name" value="{{ form.full_name }}" required>
+    </label>
+    <label>Email<br>
+      <input name="email" type="email" value="{{ form.email }}" required>
+    </label>
+    <label>Age (optional)<br>
+      <input name="age" type="number" min="0" max="150" value="{{ form.age if form.age is not none else '' }}">
+    </label>
+    <label>About (optional)<br>
+      <textarea name="about" maxlength="500">{{ form.about }}</textarea>
+    </label>
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
